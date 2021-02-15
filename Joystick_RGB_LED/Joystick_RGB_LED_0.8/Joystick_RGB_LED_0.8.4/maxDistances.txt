@@ -1,0 +1,5 @@
+/* RESULT:
+   * maxDistanceRed   == 1150.24
+   * maxDistanceGreen == 1207.85
+   * maxDistanceBlue  == 1225.20
+   */

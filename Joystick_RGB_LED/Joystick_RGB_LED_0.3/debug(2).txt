@@ -1,0 +1,56 @@
+void loop() {
+  x = analogRead(X_pin);
+  y = analogRead(Y_pin);
+  on = digitalRead(SW_pin);
+
+  
+  int xNegativeAbsolute = (x - X_DEFAULT) * (-1);
+  int yNegativeAbsolute = (y - Y_DEFAULT) * (-1);
+  int xPositveAbsolute = x - X_DEFAULT;
+  int yPositveAbsolute = y - Y_DEFAULT;
+
+  xNegativeAbsolute = makeMinimumZero(xNegativeAbsolute);
+  yNegativeAbsolute = makeMinimumZero(yNegativeAbsolute);
+  xPositveAbsolute = makeMinimumZero(xPositveAbsolute);
+  yPositveAbsolute = makeMinimumZero(yPositveAbsolute);
+      
+  Serial.print("xNegativeAbsolute: ");
+  Serial.println(xNegativeAbsolute);
+  Serial.print("yNegativeAbsolute: ");
+  Serial.println(yNegativeAbsolute);
+  Serial.print("xPositveAbsolute: ");
+  Serial.println(xPositveAbsolute);
+  //Serial.print("yPositveAbsolute: ");
+  //Serial.println(yPositveAbsolute);
+  Serial.println();
+  
+  int redDiagonal = xNegativeAbsolute + yNegativeAbsolute;
+  Serial.print("Rote Diagonale: ");
+  Serial.println(redDiagonal);
+  int greenDiagonal = yNegativeAbsolute + xPositveAbsolute;
+  Serial.print("Grüne Diagonale: ");
+  Serial.println(greenDiagonal);
+  Serial.println("-----------------------");
+
+  
+  RGB[0] = redDiagonal / (MAXIMUM / 255);    
+  RGB[1] = greenDiagonal / (MAXIMUM / 255);
+  RGB[2] = (y - Y_DEFAULT) / (Y_DEFAULT / 255);
+  enforceMaxMin();
+  analogWrite(RED, RGB[0]);
+  analogWrite(GREEN, RGB[1]);
+  analogWrite(BLUE, RGB[2]);
+  if (counter == 20) {
+    consolePrint();
+    counter = 0;
+  }
+  counter++;
+  delay(1000);        //50
+}
+
+int makeMinimumZero(int number) {
+  if (number < 0) {
+    number == 0;
+  }
+  return number;
+}
