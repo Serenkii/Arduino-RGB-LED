@@ -1,0 +1,10 @@
+used items include:
+
+-Elegoo UNO R3 Controller Board 1PCS
+-RGB LED 2PCS
+-Joystick Module 1PCS
+-830-Tie-Points Breadboard 1 PCS
+-three 220-Ohm Resistors 120 PCS
+-Jumper Wires 1PCS
+-Female-to-Male Dupont Wires 20PCS
+-(USB Cable 1PCS)
