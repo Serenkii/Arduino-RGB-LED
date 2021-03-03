@@ -1,6 +1,6 @@
 /*  Serenkii
     2021-03-02
-
+    The snake is now represented by an arry. The snake can now have a size greater than zero.
 */
 
 
@@ -23,7 +23,7 @@ bool rightButton = HIGH;  //HIGH == true
 LedControl lc = LedControl(12, 10, 11, 1);
 
 //Snake object --> Snake(size, x, y, facing)
-Snake snake = Snake(1, 3, 3, UP);
+Snake snake = Snake(3, 3, UP);
 
 void setup() {
   pinMode(LEFT_BUTTON_PIN, INPUT_PULLUP);   //if button is pressed, digitialRead will return false
@@ -31,7 +31,7 @@ void setup() {
 
   //The MAX72XX is in power-saving mode on startup, we have to do a wakeup call
   lc.shutdown(0, false);
-  lc.setIntensity(0, 0);  //0,8
+  lc.setIntensity(0, 4);  //0,8
   lc.clearDisplay(0);
   drawSnake();
 
@@ -43,6 +43,7 @@ void loop() {
   if (cooldownOver()) {
     snake.move();
     drawSnake();
+    snake.setSize(5);   //debug
   }
 }
 
@@ -61,7 +62,9 @@ bool cooldownOver() {   //return true every x ms, so drawSnake and move is execu
 
 void drawSnake() {
   lc.clearDisplay(0);
-  lc.setLed(0, snake.getHeadPositionX(), snake.getHeadPositionY(), true);
+  for (byte i = 0; i < snake.getSize(); i++) {
+      lc.setLed(0, snake.getBodyPartX(i), snake.getBodyPartY(i), true);
+  }
 }
 
 void getUserInput() {

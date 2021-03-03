@@ -1,5 +1,4 @@
 
-
 class Fruit {
 
   byte x;
@@ -22,7 +21,7 @@ public:
   }
 
   void setX(byte newX) {
-    x = newX; 
+    x = newX;
   }
   byte getX() {
     return x;

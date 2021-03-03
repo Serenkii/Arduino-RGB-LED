@@ -10,16 +10,29 @@ enum SnakeDirection {
 class Snake {
 
   byte size;
-  byte headPositionX;
-  byte headPositionY;
+  byte body[SNAKE_MAX_LENGTH][2];
   byte direction;
     
 public:
-  Snake(byte newSize, byte headPositionX, byte headPositionY, SnakeDirection facing) {
-      setSize(newSize);
+  Snake(byte headPositionX, byte headPositionY, SnakeDirection facing) {
+      setSize(1);
       setDirection(facing);
-      setHeadPositionX(headPositionX);
-      setHeadPositionY(headPositionY);
+      body[0][0] = headPositionX;
+      body[0][1] = headPositionY;
+  }
+
+  byte getBodyPartX(byte index) {
+    return body[index][0];
+  }
+  byte getBodyPartY(byte index) {
+    return body[index][1];
+  }
+
+  void setBodyPartX(byte index, byte x) {
+    body[index][0] = x;
+  }
+  void setBodyPartY(byte index, byte y) {
+    body[index][1] = y;
   }
 
   void turnRight() {
@@ -65,60 +78,39 @@ public:
   byte getSize() {
     return size;
   }
-
-  void setHeadPositionX(byte x) {
-    if (x < 0) {
-      x = 0;
-      Serial.println("The x-value was set out of bound and was corrected. (x < 0) --> x = 0");
-    }
-    if (x >= 8) {
-      x = 7;
-      Serial.println("The x-value was set out of bound and was corrected. (x >= 8) --> x = 7");
-    }
-    headPositionX = x;
-  }
   
   byte getHeadPositionX() {
-    return headPositionX;
-  }
-
-  
-  void setHeadPositionY(byte y) {
-    if (y < 0) {
-      y = 0;
-      Serial.println("The y-value was set out of bound and was corrected. (y < 0) --> y = 0");
-    }
-    if (y >= 8) {
-      y = 7;
-      Serial.println("The y-value was set out of bound and was corrected. (y >= 8) --> y = 7");
-    }
-    headPositionY = y;
+    return body[0][0];
   }
   
   byte getHeadPositionY() {
-    return headPositionY;
+    return body[0][1];
   }
 
 
   bool move() {
+    for (int i = size - 1; i > 0 ; i--) {
+      body[i][0] = body[i - 1][0];
+      body[i][1] = body[i - 1][1];
+    }
     if (direction == UP) {
       Serial.println("move UP");
-      headPositionY++;
+      body[0][1]++;
     }
     else if (direction == DOWN) {
       Serial.println("move DOWN");
-      headPositionY--;
+      body[0][1]--;
     }
     else if (direction == LEFT) {
       Serial.println("move LEFT");
-      headPositionX--;
+      body[0][0]--;
     }
     else if (direction == RIGHT) {
       Serial.println("move RIGHT");
-      headPositionX++;
+      body[0][0]++;
     }
     else {
-      
+      Serial.println("problem with direction");
     }
 
     if (outOfBound()) {
@@ -132,10 +124,10 @@ public:
   }
 
   bool outOfBound() {
-    if (headPositionX < 0 || headPositionX >= 8) {
+    if (body[0][0] < 0 || body[0][0] >= 8) {
       return true;
     }
-    if (headPositionY < 0 || headPositionY >= 8) {
+    if (body[0][1] < 0 || body[0][1] >= 8) {
       return true;
     }
     return false;
