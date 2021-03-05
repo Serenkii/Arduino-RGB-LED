@@ -111,7 +111,7 @@ public:
     }
     if (collidesWithItself()) {
       Serial.println("Snake hit itself.");
-      //return false;
+      return false;
     }
     
     return true;
